@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- （了解） url="从网络上加载配置文件" -->
+    <properties resource="db.properties"/>
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://119.23.190.71:3306/mybatis_test"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+                -->
+
+                <!-- 使用配置文件的形式，不使用上面的,这样路径就不是写死了，利于维护 -->
+                <property name="driver" value="${db.driverClass}"/> <!-- 驱动 -->
+                <property name="url" value="${db.url}"/>            <!-- 地址 -->
+                <property name="username" value="${db.username}"/>  <!-- 用户名 -->
+                <property name="password" value="${db.password}"/>  <!-- 密码 -->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 注册mapper（写一个接口就注册一个接口，前期需要，后期不需要） -->
+    <mappers>
+        <mapper resource="mapper/UserMapper.xml"></mapper>
+        <mapper resource="mapper/TestSelectMapper.xml"></mapper>
+        <mapper resource="mapper/TestInsertMapper.xml"></mapper>
+        <mapper resource="mapper/CateMapper.xml"></mapper>
+        <mapper resource="mapper/ProductMapper.xml"></mapper>
+    </mappers>
+</configuration>

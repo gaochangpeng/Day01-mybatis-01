@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.peng.mybatis.mapper.TestInsertMapper">   <!-- 完整类路径 -->
+    <!-- 获取保存对象的 ID -->
+    <resultMap id="insert" type="com.peng.mybatis.entity.Test1"><!-- 实体类的完整路径-->
+        <id column="id" property="id"></id>
+    </resultMap>
+
+    <!-- 获取ID
+        属性：
+            keyProperty：指定主键赋值的字段
+            useGeneratedKeys：使用返回的主键
+    -->
+    <!-- 方式1 -->
+    <!--
+    <insert id="insert" keyProperty="test.id" useGeneratedKeys="true">
+        insert into t_test(name)
+        values (#{test.name})
+    </insert>
+    -->
+
+    <!-- 方式2  oracle 主键没有自增  序列对象 -->
+    <!--
+    <insert id="insert">
+        <selectKey keyProperty="test.id" order="BEFORE">
+            &lt;!&ndash; 获取 ID 信息 &ndash;&gt;   &lt;!&ndash; BEFORE：运行 sql 语句之前执行 selectKey 标签 &ndash;&gt;
+            select id from dual;   &lt;!&ndash; 这里只是举列子 &ndash;&gt;
+        </selectKey>
+
+        insert into t_test(id, name)
+        values (#{test.id},#{test.name});
+    </insert>
+    -->
+
+    <!-- 方式3 oracle 主键没有自增  序列对象 -->
+    <insert id="insert">
+        <!-- 适合数据没有自增的-->
+        insert into t_test(name)
+        values (#{test.name});
+
+        <selectKey keyProperty="test.id" order="AFTER">
+            <!-- 通过 select key 获取ID -->   <!-- AFTER：运行 sql 语句之后执行 selectKey 标签 -->
+            select last_insert_id() as id;   <!-- 这里只是举列子 -->
+        </selectKey>
+    </insert>
+
+</mapper>

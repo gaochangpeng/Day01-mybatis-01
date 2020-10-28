@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.peng.mybatis.mapper.TestSelectMapper">
+    <resultMap id="BaseResultMapper" type="com.peng.mybatis.entity.Test1">
+        <id column="id" property="id"></id>
+    </resultMap>
+
+    <!-- resultMap  直接使用定义的resultMap -->
+    <!-- resultType  一般情况指向一个对象(不推荐使用) -->
+    <!-- parameterType="map"  在mapper.xml中声明参数  (不推荐) -->
+    <!-- <select id="对应方法的名称" resultMap="BaseResultMap" resultType="com.peng.mybatis.entity.Test1"> </select> -->
+    <!-- resultMap 与 resultType 不要一起使用，只使用其一，不建议使用resultType -->
+
+    <select id="selectById" resultMap="BaseResultMapper">
+        select * from t_test where id = #{id};
+    </select>
+    <!-- 关联查询，多表查询（以后再讲） -->
+    <select id="selectList" resultMap="BaseResultMapper">
+        select * from t_test limit #{page}, #{size};
+    </select>
+
+</mapper>
